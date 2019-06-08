@@ -8,6 +8,7 @@
 
 ### FUNCTIONS ###
 
+library("psych") #describe
 library("nlme") #linear mixed effects
 library("lme4") #poisson mixed effects
 library("tsModel") #time-series analysis
@@ -152,7 +153,6 @@ pop2017 = get_acs(geography="state", table="B01003", survey="acs5", year=2017)
 #Mum: Mumps
 #FluA: Novel influenza A virus infections
 #Per: Pertussis
-#Pol: Polio
 #Rub: Rubella
 #RubCRS: Rubella, congenital syndrome
 #Tet: Tetanus
@@ -160,7 +160,7 @@ pop2017 = get_acs(geography="state", table="B01003", survey="acs5", year=2017)
 #VarMort: Varicella (Chickenpox) --> Mortality
 VPDs = data.frame("Year"=rep(2010:2017,each=50), "State"=rep(state.name,length(2010:2017)), "Dip"=NA, "Hib"=NA, "HepA"=NA, "HepB"=NA, "HepBPeri"=NA, "Flu"=NA, "Pne"=NA, "Mea"=NA, "MenACWY"=NA, "MenB"=NA, "Mum"=NA, "FluA"=NA, "Per"=NA, "Pol"=NA, "Rub"=NA, "RubCRS"=NA, "Tet"=NA, "VarMorb"=NA, "VarMort"=NA, "Total"=NA, stringsAsFactors=F)
 
-#2010
+#2010, commented means no reported cases
 #VPDs$Dip[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[9], fill=T)[[1]], 4, 2010)[2])
 VPDs$Hib[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[10], fill=T)[[1]], 3, 2010)[2])
 VPDs$HepA[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[11], fill=T)[[1]], 2, 2010)[2])
@@ -177,10 +177,10 @@ VPDs$Per[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "t
 VPDs$Rub[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[15], fill=T)[[1]], 2, 2010)[2])
 #VPDs$RubCRS[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[15], fill=T)[[1]], 5, 2010)[2])
 VPDs$Tet[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[16], fill=T)[[1]], 8, 2010)[2])
-#VPDs$VarMorb[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[18], fill=T)[[1]], 4, 2010)[2])
-#VPDs$VarMort[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[18], fill=T)[[1]], 5, 2010)[2])
+VPDs$VarMorb[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[18], fill=T)[[1]], 2, 2010)[2])
+VPDs$VarMort[VPDs$Year==2010] = unlist(stateCases(html_table(html_nodes(data2010, "table")[18], fill=T)[[1]], 3, 2010)[2])
 
-#2011
+#2011, commented means no reported cases
 #VPDs$Dip[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[9], fill=T)[[1]], 4, 2011)[2])
 VPDs$Hib[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[10], fill=T)[[1]], 3, 2011)[2])
 VPDs$HepA[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[11], fill=T)[[1]], 2, 2011)[2])
@@ -197,8 +197,8 @@ VPDs$Per[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "t
 VPDs$Rub[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[15], fill=T)[[1]], 2, 2011)[2])
 #VPDs$RubCRS[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[15], fill=T)[[1]], 5, 2011)[2])
 VPDs$Tet[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[16], fill=T)[[1]], 8, 2011)[2])
-#VPDs$VarMorb[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[18], fill=T)[[1]], 4, 2011)[2])
-#VPDs$VarMort[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[18], fill=T)[[1]], 5, 2011)[2])
+VPDs$VarMorb[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[18], fill=T)[[1]], 2, 2011)[2])
+VPDs$VarMort[VPDs$Year==2011] = unlist(stateCases(html_table(html_nodes(data2011, "table")[18], fill=T)[[1]], 3, 2011)[2])
 
 #2012
 VPDs$Dip[VPDs$Year==2012] = unlist(stateCases(html_table(html_nodes(data2012, "table")[9], fill=T)[[1]], 4, 2012)[2])
@@ -220,7 +220,7 @@ VPDs$Tet[VPDs$Year==2012] = unlist(stateCases(html_table(html_nodes(data2012, "t
 VPDs$VarMorb[VPDs$Year==2012] = unlist(stateCases(html_table(html_nodes(data2012, "table")[18], fill=T)[[1]], 5, 2012)[2])
 VPDs$VarMort[VPDs$Year==2012] = unlist(stateCases(html_table(html_nodes(data2012, "table")[18], fill=T)[[1]], 6, 2012)[2])
 
-#2013
+#2013, commented means no reported cases
 #VPDs$Dip[VPDs$Year==2013] = unlist(stateCases(html_table(html_nodes(data2013, "table")[9], fill=T)[[1]], 4, 2013)[2])
 VPDs$Hib[VPDs$Year==2013] = unlist(stateCases(html_table(html_nodes(data2013, "table")[10], fill=T)[[1]], 5, 2013)[2])
 VPDs$HepA[VPDs$Year==2013] = unlist(stateCases(html_table(html_nodes(data2013, "table")[11], fill=T)[[1]], 4, 2013)[2])
@@ -260,7 +260,7 @@ VPDs$Tet[VPDs$Year==2014] = unlist(stateCases(html_table(html_nodes(data2014, "t
 VPDs$VarMorb[VPDs$Year==2014] = unlist(stateCases(html_table(html_nodes(data2014, "table")[16], fill=T)[[1]], 2, 2014)[2])
 VPDs$VarMort[VPDs$Year==2014] = unlist(stateCases(html_table(html_nodes(data2014, "table")[16], fill=T)[[1]], 3, 2014)[2])
 
-#2015
+#2015, commented means no reported cases
 #VPDs$Dip[VPDs$Year==2015] = unlist(stateCases(html_table(html_nodes(data2015, "table")[6], fill=T)[[1]], 3, 2015)[2])
 VPDs$Hib[VPDs$Year==2015] = unlist(stateCases(html_table(html_nodes(data2015, "table")[9], fill=T)[[1]], 3, 2015)[2])
 VPDs$HepA[VPDs$Year==2015] = unlist(stateCases(html_table(html_nodes(data2015, "table")[10], fill=T)[[1]], 3, 2015)[2])
@@ -385,6 +385,13 @@ bills = read.csv("Analysis_data.csv", as.is=T, stringsAsFactors=F, na.strings=""
 # #create time indicator (2010 as base)
 # Law$Time = Law$Year - 2010
 
+#collapse similar VPDs into disease areas
+VPDs$Hep_any = rowSums(VPDs[,c("HepA","HepB","HepBPeri")], na.rm=T)
+VPDs$Flu_any = rowSums(VPDs[,c("Flu","FluA")], na.rm=T)
+VPDs$Men_any = rowSums(VPDs[,c("MenACWY","MenB")], na.rm=T)
+VPDs$Rub_any = rowSums(VPDs[,c("Rub","RubCRS")], na.rm=T)
+VPDs$Var_any = rowSums(VPDs[,c("VarMorb","VarMort")], na.rm=T)
+
 
 ### COUNT BILLS ###
 
@@ -426,38 +433,53 @@ VPDs = subset(VPDs, Year<=2016)
 VPDs$Time = VPDs$Year - 2010
 
 
-### ANALYSIS: NUMBER of BILLS ###
+### ANALYSIS ###
 
+#VPDs
+describe(VPDs$VPDs_percapita)
+(sum(VPDs$Dip, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Hib, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Hep_any, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Flu_any, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Pne, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Mea, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Men_any, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Mum, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Per, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Rub_any, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Tet, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+(sum(VPDs$Var_any, na.rm=T) / sum(VPDs$VPDs_total, na.rm=T) * 100)
+
+#bills
 sum(VPDs$Bills_total)
 sum(VPDs$Bills_anti)
 sum(VPDs$Bills_pro)
-sum(VPDs$VPDs_total)
 
-#continuous outcome 
-
-#choose a covariance structure
-summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,data=VPDs,method="REML")) #no correlation
-summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corSymm(),data=VPDs,method="REML")) #symmetric
-summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corAR1(),data=VPDs,method="REML")) #autoregressive
-summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corCompSymm(),data=VPDs,method="REML")) #compound symmetry
-
-#MODEL 1: Total bills by VPDs in prior year
-summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
-
-#MODEL 2: Anti bills by VPDs in prior year
-summary(lme(Bills_anti ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
-
-#MODEL 3: Pro bills by VPDs in prior year
-summary(lme(Bills_pro ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
-
-#MODEL 4: Enacted bills by VPDs in prior year
-summary(lme(Bills_law ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
+# #continuous outcome 
+# 
+# #choose a covariance structure
+# summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,data=VPDs,method="REML")) #no correlation
+# summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corSymm(),data=VPDs,method="REML")) #symmetric
+# summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corAR1(),data=VPDs,method="REML")) #autoregressive
+# summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State,correlation=corCompSymm(),data=VPDs,method="REML")) #compound symmetry
+# 
+# #MODEL 1: Total bills by VPDs in prior year
+# summary(lme(Bills_total ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
+# 
+# #MODEL 2: Anti bills by VPDs in prior year
+# summary(lme(Bills_anti ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
+# 
+# #MODEL 3: Pro bills by VPDs in prior year
+# summary(lme(Bills_pro ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
+# 
+# #MODEL 4: Enacted bills by VPDs in prior year
+# summary(lme(Bills_law ~ Time*VPDs_percapita, random=~1|State, data=VPDs, method="ML"))
 
 #count outcome
 
 #MODEL 1: Total bills by VPDs in prior year
-summary(glmer(Bills_total ~ (1|State) + Time + scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
-summary(glmer(Bills_total ~ (1|State) + Time*scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
+#summary(glmer(Bills_total ~ (1|State) + Time + scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
+#summary(glmer(Bills_total ~ (1|State) + Time*scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
 
 #MODEL 2: Anti bills by VPDs in prior year
 model = glmer(Bills_anti ~ (1|State) + Time + scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson())
@@ -474,22 +496,29 @@ exp(fixef(model))
 exp(confint.merMod(model, method="Wald"))
 
 #MODEL 4: Enacted bills by VPDs in prior year
-summary(glmer(Bills_law ~ (1|State) + Time + scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
-summary(glmer(Bills_law ~ (1|State) + Time*scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
+#summary(glmer(Bills_law ~ (1|State) + Time + scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
+#summary(glmer(Bills_law ~ (1|State) + Time*scale(VPDs_percapita), offset=log(Population), data=VPDs, family=poisson()))
 
-#dichotmous outcome
+#sensitivity analysis limited to pertussis
+model = glmer(Bills_anti ~ (1|State) + Time + scale(Per/Population), offset=log(Population), data=VPDs, family=poisson())
+model = glmer(Bills_pro ~ (1|State) + Time + scale(Per/Population), offset=log(Population), data=VPDs, family=poisson())
+summary(model)
+exp(fixef(model))
+exp(confint.merMod(model, method="Wald"))
 
-#MODEL 1: Total bills by VPDs in prior year
-summary(glmer(Bills_total_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=poisson()))
-
-#MODEL 2: Anti bills by VPDs in prior year
-summary(glmer(Bills_anti_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
-
-#MODEL 3: Pro bills by VPDs in prior year
-summary(glmer(Bills_pro_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
-
-#MODEL 4: Enacted bills by VPDs in prior year
-summary(glmer(Bills_law_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
+# #dichotmous outcome
+# 
+# #MODEL 1: Total bills by VPDs in prior year
+# summary(glmer(Bills_total_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=poisson()))
+# 
+# #MODEL 2: Anti bills by VPDs in prior year
+# summary(glmer(Bills_anti_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
+# 
+# #MODEL 3: Pro bills by VPDs in prior year
+# summary(glmer(Bills_pro_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
+# 
+# #MODEL 4: Enacted bills by VPDs in prior year
+# summary(glmer(Bills_law_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=binomial()))
 
 
 # ### ANALYSIS: BEFORE and AFTER ###
@@ -556,28 +585,130 @@ summary(glmer(Bills_law_YN ~ (1|State) + Time*VPDs_percapita, data=VPDs, family=
 # summary(glm(VPDs ~ Law*Time + harmonic(Year,2,7), offset=log(Population), data=Law[Law$State=="UT" & Law$Enacted=="2017",], family=poisson()))
 
 
-### FIGURE ###
+# ### FIGURE ###
+# 
+# #tiff("Figure.tif",height=6,width=10,units='in',res=1200) 
+# 
+# #create a table of pro/anti vax bills by year
+# figure_data = t(matrix(data=c(as.numeric(by(VPDs$Bills_anti, VPDs$Year, FUN=sum)), as.numeric(by(VPDs$Bills_pro, VPDs$Year, FUN=sum))), nrow=length(unique(VPDs$Year)), ncol=2, byrow=F))
+# 
+# #side-by-side bar plot of pro/anti
+# par(mar = c(5,4,4,4) + 0.1)
+# bar_center = barplot(figure_data, xaxt="n", beside=T, ylim=c(0,30))
+# 
+# #plot VPDs, shift down for visual clarity
+# lines(x=colMeans(bar_center), y=by((VPDs$VPDs_percapita-5), VPDs$Year, FUN=median), lwd=4)
+# 
+# #axis labels
+# axis(1, at=colMeans(bar_center), labels=2011:2017)
+# axis(4, at=c(0,10,20,30), labels=c(5,15,25,35))
+# mtext(expression(italic("Total bills proposed")), side=2, line=2)
+# mtext(expression(italic("Year")), side=1, line=2)
+# mtext(expression(italic("VPDs per 100,000")), side=4, line=2)
+# 
+# #legend
+# legend(1,30, c("Expand", "Restrict"), fill=gray.colors(2))
+# 
+# #dev.off()
 
-#tiff("Figure.tif",height=6,width=10,units='in',res=1200) 
 
-#create a table of pro/anti vax bills by year
-figure_data = t(matrix(data=c(as.numeric(by(VPDs$Bills_anti, VPDs$Year, FUN=sum)), as.numeric(by(VPDs$Bills_pro, VPDs$Year, FUN=sum))), nrow=length(unique(VPDs$Year)), ncol=2, byrow=F))
+### TABLE 1 ###
 
-#side-by-side bar plot of pro/anti
-par(mar = c(5,4,4,4) + 0.1)
-bar_center = barplot(figure_data, xaxt="n", beside=T, ylim=c(0,30))
+sum(VPDs$VPDs_total[VPDs$Year==2010])
+sum(VPDs$Dip[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2010], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2010], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2010], na.rm=T) * 100)
 
-#plot VPDs, shift down for visual clarity
-lines(x=colMeans(bar_center), y=by((VPDs$VPDs_percapita-5), VPDs$Year, FUN=median), lwd=4)
+sum(VPDs$VPDs_total[VPDs$Year==2011])
+sum(VPDs$Dip[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2011], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2011], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2011], na.rm=T) * 100)
 
-#axis labels
-axis(1, at=colMeans(bar_center), labels=2011:2017)
-axis(4, at=c(0,10,20,30), labels=c(5,15,25,35))
-mtext(expression(italic("Total bills proposed")), side=2, line=2)
-mtext(expression(italic("Legislative year")), side=1, line=2)
-mtext(expression(italic("VPDs per 100,000")), side=4, line=2)
+sum(VPDs$VPDs_total[VPDs$Year==2012])
+sum(VPDs$Dip[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2012], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2012], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2012], na.rm=T) * 100)
 
-#legend
-legend(1,30, c("Expand", "Restrict"), fill=gray.colors(2))
+sum(VPDs$VPDs_total[VPDs$Year==2013])
+sum(VPDs$Dip[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2013], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2013], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2013], na.rm=T) * 100)
 
-#dev.off()
+sum(VPDs$VPDs_total[VPDs$Year==2014])
+sum(VPDs$Dip[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2014], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2014], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2014], na.rm=T) * 100)
+
+sum(VPDs$VPDs_total[VPDs$Year==2015])
+sum(VPDs$Dip[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2015], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2015], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2015], na.rm=T) * 100)
+
+sum(VPDs$VPDs_total[VPDs$Year==2016])
+sum(VPDs$Dip[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Dip[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Hib[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Hib[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Hep_any[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Hep_any[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Flu_any[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Flu_any[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Pne[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Pne[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Mea[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Mea[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Men_any[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Men_any[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Mum[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Mum[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Per[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Per[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Rub_any[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Rub_any[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Tet[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Tet[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+sum(VPDs$Var_any[VPDs$Year==2016], na.rm=T); round(sum(VPDs$Var_any[VPDs$Year==2016], na.rm=T) / sum(VPDs$VPDs_total[VPDs$Year==2016], na.rm=T) * 100)
+
